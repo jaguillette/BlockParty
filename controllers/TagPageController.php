@@ -11,19 +11,19 @@
  *
  * @package TagEverything
  */
-class TagEverything_TaggedController extends Omeka_Controller_AbstractActionController
+class TagEverything_TagPageController extends Omeka_Controller_AbstractActionController
 {
     public function showAction()
     {
         // Get the page object from the passed ID.
-        //$pageId = $this->_getParam('id');
-        //$page = $this->_helper->db->getTable('SimplePagesPage')->find($pageId);
+        $taggedId = $this->_getParam('id');
+        $tagged = $this->_helper->db->getTable('TagEverythingTagPage')->find($taggedId);
         
         // Restrict access to the page when it is not published.
-        //if (!$page->is_published 
-        //    && !$this->_helper->acl->isAllowed('show-unpublished')) {
-        //    throw new Omeka_Controller_Exception_403;
-        //}
+        if (!$page->is_published 
+            && !$this->_helper->acl->isAllowed('show-unpublished')) {
+            throw new Omeka_Controller_Exception_403;
+        }
 
         $route = $this->getFrontController()->getRouter()->getCurrentRouteName();
         //$isHomePage = ($route == Omeka_Application_Resource_Router::HOMEPAGE_ROUTE_NAME);
