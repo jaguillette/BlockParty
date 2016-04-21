@@ -9,16 +9,16 @@ class TagEverythingPlugin extends Omeka_Plugin_AbstractPlugin
 		'install',
 		'uninstall',
 		'initialize',
+		'define_acl',
 		'define_routes'
 	);
 
 	/**
 	 * @var array Filters for the plugin.
 	 */
-	/*protected $_filters = array(
-		'admin_navigation_main',
-		'public_navigation_main'
-	);*/
+	protected $_filters = array(
+		'admin_navigation_main'
+	);
 
 	public function hookInstall($args)
 	{
@@ -30,7 +30,8 @@ class TagEverythingPlugin extends Omeka_Plugin_AbstractPlugin
 			`tags` mediumtext COLLATE utf8_unicode_ci NOT NULL,
 			`is_published` tinyint(1) NOT NULL,
 			`title` tinytext COLLATE utf8_unicode_ci NOT NULL,
-			`order` tinytext COLLATE utf8_unicode_ci NOT NULL,
+			`use_tiny_mce` tinyint(1) NOT NULL,
+			`display_order` tinytext COLLATE utf8_unicode_ci NOT NULL,
 			`exhibits_title` tinytext COLLATE utf8_unicode_ci,
 			`collections_title` tinytext COLLATE utf8_unicode_ci,
 			`items_title` tinytext COLLATE utf8_unicode_ci,
@@ -43,11 +44,12 @@ class TagEverythingPlugin extends Omeka_Plugin_AbstractPlugin
 			`exhibits_max` int(10) unsigned NOT NULL,
 			`collections_max` int(10) unsigned NOT NULL,
 			`items_max` int(10) unsigned NOT NULL,
+			`updated` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
 			PRIMARY KEY (`id`)
 		) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci";
 		$db->query($sql);
 
-		//$this->installOptions();
+		//$this->_installOptions();
 	}
 
 	public function hookUninstall($args)
@@ -65,6 +67,25 @@ class TagEverythingPlugin extends Omeka_Plugin_AbstractPlugin
 		// Any initializing functions
 	}
 
+    /**
+     * Define the ACL.
+     * 
+     * @param Omeka_Acl
+     */
+    public function hookDefineAcl($args)
+    {
+        $acl = $args['acl'];
+        
+        $indexResource = new Zend_Acl_Resource('TagEverything_Index');
+        $tagPageResource = new Zend_Acl_Resource('TagEverything_TagPage');
+        $acl->add($indexResource);
+        $acl->add($tagPageResource);
+
+        $acl->allow(array('super', 'admin'), array('TagEverything_Index', 'TagEverything_TagPage'));
+        $acl->allow(null, 'TagEverything_TagPage', 'show');
+        $acl->deny(null, 'TagEverything_TagPage', 'show-unpublished');
+    }
+
 	/**
 	 * Add the routes for accessing tagged groups of records.
 	 * 
@@ -73,15 +94,18 @@ class TagEverythingPlugin extends Omeka_Plugin_AbstractPlugin
 	public function hookDefineRoutes($args)
 	{
 
+		$router = $args['router'];
+
+		// Add routes.ini routes
+		$router->addConfig(new Zend_Config_Ini(dirname(__FILE__).'/routes.ini'));
+
 		// Don't add to admin to avoid conflicts
 		if (is_admin_theme()) {
 			return;
 		}
 
-		$router = $args['router'];
-
 		// Add routes for each tag everything page
-		$pages = get_db()->getTable('TagEverythingTagPage')->findAll();
+		/*$pages = get_db()->getTable('TagEverythingTagPage')->findAll();
 		foreach ($pages as $page) {
 			$router->addRoute(
 				'tagEverythingTagGroup' . $page->id,
@@ -95,7 +119,23 @@ class TagEverythingPlugin extends Omeka_Plugin_AbstractPlugin
 					)
 				)
 			);
-		}
+		}*/
+	}
+
+	/**
+	 * Add the Tag Everything link to the admin main navigation.
+	 * 
+	 * @param array Navigation array.
+	 * @return array Filtered navigation array.
+	 */
+	public function filterAdminNavigationMain($nav)
+	{
+	    $nav[] = array(
+	        'label' => __('Tag Everything'),
+	        'uri' => url('tag-everything'),
+	        'resource' => 'TagEverything_Index'
+	    );
+	    return $nav;
 	}
 }
 ?>
