@@ -10,14 +10,16 @@ class TagEverythingPlugin extends Omeka_Plugin_AbstractPlugin
 		'uninstall',
 		'initialize',
 		'define_acl',
-		'define_routes'
+		'define_routes',
+		'admin_head',
 	);
 
 	/**
 	 * @var array Filters for the plugin.
 	 */
 	protected $_filters = array(
-		'admin_navigation_main'
+		'admin_navigation_main',
+		'exhibit_layouts'
 	);
 
 	public function hookInstall($args)
@@ -122,6 +124,10 @@ class TagEverythingPlugin extends Omeka_Plugin_AbstractPlugin
 		}*/
 	}
 
+	public function hookAdminHead() {
+		queue_css_file('tag-everything-admin','all');
+	}
+
 	/**
 	 * Add the Tag Everything link to the admin main navigation.
 	 * 
@@ -136,6 +142,15 @@ class TagEverythingPlugin extends Omeka_Plugin_AbstractPlugin
 	        'resource' => 'TagEverything_Index'
 	    );
 	    return $nav;
+	}
+
+	public function filterExhibitLayouts($layouts)
+	{
+		$layouts['item-group'] = array(
+			'name' => 'Item Group',
+			'description' => 'Display a group of items from search parameters.'
+		);
+		return $layouts;
 	}
 }
 ?>
