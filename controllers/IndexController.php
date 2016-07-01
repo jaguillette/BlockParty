@@ -27,21 +27,27 @@ class TagEverything_IndexController extends Omeka_Controller_AbstractActionContr
 		return;
 	}
 
-	public function browseAction()
-	{}
-
 	public function addAction()
 	{
 		$page = new TagEverythingTagPage;
 
 		$form = $this->_getForm($page);
 		$this->view->form = $form;
-		return;
+		$this->_processPageForm($page, $form, 'add');
+	}
+	
+	public function editAction()
+	{
+		// Get the requested page.
+		$page = $this->_helper->db->findById();
+		$form = $this->_getForm($page);
+		$this->view->form = $form;
+		$this->_processPageForm($page, $form, 'edit');
 	}
 
 	protected function _getForm($page=null)
 	{
-		$formOptions = array('type' => 'simple_pages_page', 'hasPublicPage' => true);
+		$formOptions = array('type' => 'tag_everything_tag_page', 'hasPublicPage' => true);
 		if ($page && $page->exists()) {
 			$formOptions['record'] = $page;
 		}
@@ -65,10 +71,10 @@ class TagEverything_IndexController extends Omeka_Controller_AbstractActionContr
 				'value' => $page->slug,
 				'label' => __('Slug'),
 				'description' => __(
-                    'The slug is the part of the URL for this page. A slug '
-                    . 'will be created automatically from the title if one is '
-                    . 'not entered. Letters, numbers, underscores, dashes, and '
-                    . 'forward slashes are allowed.')
+					'The slug is the part of the URL for this page. A slug '
+					. 'will be created automatically from the title if one is '
+					. 'not entered. Letters, numbers, underscores, dashes, and '
+					. 'forward slashes are allowed.')
 			)
 		);
 
@@ -123,6 +129,7 @@ class TagEverything_IndexController extends Omeka_Controller_AbstractActionContr
 			'textarea', 'exhibits_description',
 			array(
 				'id' => 'tag-page-exhibits_description',
+				'class' => 'tag-pages-text',
 				'value' => $page->exhibits_description,
 				'label' => __('Exhibits Section Description'),
 				'description' => __(
@@ -245,39 +252,55 @@ class TagEverything_IndexController extends Omeka_Controller_AbstractActionContr
 					. 'a random selection of the items will be displayed.')
 			)
 		);
+		
+		$form->addElementToSaveGroup(
+			'checkbox', 'is_published',
+			array(
+				'id' => 'tag_page_is_published',
+				'values' => array(1, 0),
+				'checked' => $page->is_published,
+				'label' => __('Publish this page?'),
+				'description' => __('Checking this box will make the page public')
+			)
+		);
 
 		return $form;
 	}
-    
-    /**
-     * Process the page edit and edit forms.
-     */
-    private function _processPageForm($page, $form, $action)
-    {
-        // Set the page object to the view.
-        $this->view->tag_everything_tag_page = $page;
+	
+	/**
+	 * Process the page edit and edit forms.
+	 */
+	private function _processPageForm($page, $form, $action)
+	{
+		// Set the page object to the view.
+		$this->view->tag_everything_tag_page = $page;
 
-        if ($this->getRequest()->isPost()) {
-            if (!$form->isValid($_POST)) {
-                $this->_helper->_flashMessenger(__('There was an error on the form. Please try again.'), 'error');
-                return;
-            }
-            try {
-                $page->setPostData($_POST);
-                if ($page->save()) {
-                    if ('add' == $action) {
-                        $this->_helper->flashMessenger(__('The page "%s" has been added.', $page->title), 'success');
-                    } else if ('edit' == $action) {
-                        $this->_helper->flashMessenger(__('The page "%s" has been edited.', $page->title), 'success');
-                    }
-                    
-                    $this->_helper->redirector('browse');
-                    return;
-                }
-            // Catch validation errors.
-            } catch (Omeka_Validate_Exception $e) {
-                $this->_helper->flashMessenger($e);
-            }
-        }
-    }
+		if ($this->getRequest()->isPost()) {
+			if (!$form->isValid($_POST)) {
+				$this->_helper->_flashMessenger(__('There was an error on the form. Please try again.'), 'error');
+				return;
+			}
+			try {
+				$page->setPostData($_POST);
+				if ($page->save()) {
+					if ('add' == $action) {
+						$this->_helper->flashMessenger(__('The page "%s" has been added.', $page->title), 'success');
+					} else if ('edit' == $action) {
+						$this->_helper->flashMessenger(__('The page "%s" has been edited.', $page->title), 'success');
+					}
+					
+					$this->_helper->redirector('browse');
+					return;
+				}
+			// Catch validation errors.
+			} catch (Omeka_Validate_Exception $e) {
+				$this->_helper->flashMessenger($e);
+			}
+		}
+	}
+
+	protected function _getDeleteSuccessMessage($record)
+	{
+		return __('The page "%s" has been deleted.', $record->title);
+	}
 }

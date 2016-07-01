@@ -2,7 +2,7 @@
 
 queue_js_file('vendor/tiny_mce/tiny_mce');
 $head = array('bodyclass' => 'tag-everything primary', 
-              'title' => html_escape(__('Tag Everything | Add Tag Page')));
+              'title' => __('Tag Everything | Edit "%s"', metadata('tag_everything_tag_page', 'title')));
 echo head($head);
 ?>
 
@@ -12,7 +12,7 @@ jQuery(window).load(function() {
     tinyMCE.init({
         // Assign TinyMCE a textarea:
         mode : 'exact',
-        elements: 'tag-pages-text',
+        elements: '<?php if ($tag_everything_tag_page->use_tiny_mce) echo 'simple-pages-text'; ?>',
         // Add plugins:
         plugins: 'media,paste,inlinepopups',
         // Configure theme:
@@ -27,16 +27,20 @@ jQuery(window).load(function() {
         convert_urls: false,
     });
     // Add or remove TinyMCE control.
-    jQuery('#tag-page-use_tiny_mce').click(function() {
+    jQuery('#simple-pages-use-tiny-mce').click(function() {
         if (jQuery(this).is(':checked')) {
-            tinyMCE.execCommand('mceAddControl', true, 'tag-pages-text');
+            tinyMCE.execCommand('mceAddControl', true, 'simple-pages-text');
         } else {
-            tinyMCE.execCommand('mceRemoveControl', true, 'tag-pages-text');
+            tinyMCE.execCommand('mceRemoveControl', true, 'simple-pages-text');
         }
     });
 });
 </script>
 
 <?php echo flash(); ?>
+<p><?php echo __('This page was last modified by on %1$s.',
+    html_escape(format_date(metadata('tag_everything_tag_page', 'updated'), Zend_Date::DATETIME_SHORT))); ?></p>
+
 <?php echo $form; ?>
+
 <?php echo foot(); ?>
