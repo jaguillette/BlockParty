@@ -1,9 +1,9 @@
 <?php
 /**
- * @package TagEverything
+ * @package BlockParty
  */
 
-class TagEverythingPlugin extends Omeka_Plugin_AbstractPlugin
+class BlockPartyPlugin extends Omeka_Plugin_AbstractPlugin
 {
 	protected $_hooks = array(
 		'install',
@@ -35,7 +35,7 @@ class TagEverythingPlugin extends Omeka_Plugin_AbstractPlugin
 	}
 
 	public function hookAdminHead() {
-		queue_css_file('tag-everything-admin','all');
+		queue_css_file('block-party-admin','all');
 	}
 
 	public function filterExhibitLayouts($layouts)
