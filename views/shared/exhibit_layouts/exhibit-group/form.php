@@ -6,14 +6,14 @@ $options = $block->getOptions();
     <h4><?php echo __('Section Title'); ?></h4>
     <?php echo $this->formText($formStem . '[options][section-title]', @$options['section-title']); ?>
 
-    <h4><?php echo __('Item Query'); ?></h4>
+    <h4><?php echo __('Exhibit Query'); ?></h4>
     <div class="query-param">
         <?php echo $this->formLabel($formStem . '[options][tags]', __('Tags:')); ?>
         <?php echo $this->formText($formStem . '[options][tags]',@$options['tags']); ?>
     </div>
 
     <div class="query-param">
-        <?php echo $this->formLabel($formStem . '[options][ids]', __('Item IDs:')); ?>
+        <?php echo $this->formLabel($formStem . '[options][ids]', __('Exhibit IDs:')); ?>
         <?php echo $this->formText($formStem . '[options][ids]',@$options['ids']); ?>
     </div>
 </div>
