@@ -1,4 +1,4 @@
-.item-group-item {
+.exhibit {
     display: inline-block;
     float: left;
     width: 100%;
@@ -7,33 +7,40 @@
     break-inside: avoid-column;         /* IE 11 */
 }
 
-.item-group-item .item-img {
+.exhibit .image {
     max-width: 50%;
     float: left;
     display: inline;
+    margin: 0 5% 0 9px !important;
 }
 
-.item-img img {
-    width: 95%;
+.exhibit .image img {
+    width: 100%;
+    height: auto;
 }
 
-.item-description {
-    display: inline;
+.collection-description p:last-child {
+    margin-bottom: 0;
 }
 
-.item-group.oneCol {
+.view-items-link {
+    display: inline-block;
+    margin-top: 0.5em;
+}
+
+.exhibit-group.oneCol {
     -moz-column-count: 1;
     -webkit-column-count: 1;
     column-count: 1;
 }
 
-.item-group.twoCol {
+.exhibit-group.twoCol {
     -moz-column-count: 2;
     -webkit-column-count: 2;
     column-count: 2;
 }
 
-.item-group.threeCol {
+.exhibit-group.threeCol {
     -moz-column-count: 3;
     -webkit-column-count: 3;
     column-count: 3;
