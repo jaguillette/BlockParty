@@ -44,6 +44,10 @@ class BlockPartyPlugin extends Omeka_Plugin_AbstractPlugin
 			'name' => 'Item Group',
 			'description' => 'Display a group of items from search parameters.'
 		);
+		$layouts['exhibit-group'] = array(
+			'name' => 'Exhibit Group',
+			'description' => 'Display a group of exhibits from search parameters.'
+		);
 		return $layouts;
 	}
 }
