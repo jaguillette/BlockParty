@@ -1,0 +1,38 @@
+.collection {
+    display: inline-block;
+    float: left;
+    width: 100%;
+    -webkit-column-break-inside: avoid; /* Chrome, Safari */
+    page-break-inside: avoid;           /* Theoretically FF 20+ */
+    break-inside: avoid-column;         /* IE 11 */
+}
+
+.collection .image {
+    max-width: 50%;
+    float: left;
+    display: inline;
+    margin: 0 5% 0 9px !important;
+}
+
+.collection .image img {
+    width: 100%;
+    height: auto;
+}
+
+.collection-group.oneCol {
+    -moz-column-count: 1;
+    -webkit-column-count: 1;
+    column-count: 1;
+}
+
+.collection-group.twoCol {
+    -moz-column-count: 2;
+    -webkit-column-count: 2;
+    column-count: 2;
+}
+
+.collection-group.threeCol {
+    -moz-column-count: 3;
+    -webkit-column-count: 3;
+    column-count: 3;
+}
