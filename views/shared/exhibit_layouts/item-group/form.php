@@ -4,19 +4,19 @@ $options = $block->getOptions();
 ?>
 <div class="item-details">
     <h4><?php echo __('Section Title'); ?></h4>
-    <?php echo $this->formText($formStem . '[options][section-title]', $options['section-title']); ?>
+    <?php echo $this->formText($formStem . '[options][section-title]', @$options['section-title']); ?>
 
     <h4><?php echo __('Item Query'); ?></h4>
     <div class="query-param">
         <?php echo $this->formLabel($formStem . '[options][tags]', __('Tags:')); ?>
-        <?php echo $this->formText($formStem . '[options][tags]',$options['tags']); ?>
+        <?php echo $this->formText($formStem . '[options][tags]', @$options['tags']); ?>
     </div>
 
     <div class="query-param">
         <?php echo $this->formLabel($formStem . '[options][collection]', __('Collection:')); ?>
         <?php echo $this->formSelect(
               $formStem . '[options][collection]',
-              $options['collection'],
+              @$options['collection'],
               array('id' => 'collection-search'),
               get_table_options('Collection')
             ); ?>
@@ -26,7 +26,7 @@ $options = $block->getOptions();
         <?php echo $this->formLabel($formStem . '[options][type]', __('Item Type')) ?>
         <?php echo $this->formSelect(
           $formStem . '[options][type]',
-          $options['type'],
+          @$options['type'],
           array('id' => 'item-type-search'),
           get_table_options('ItemType')
         ); ?>
@@ -34,7 +34,7 @@ $options = $block->getOptions();
 
     <div class="query-param">
         <?php echo $this->formLabel($formStem . '[options][ids]', __('Item IDs:')); ?>
-        <?php echo $this->formText($formStem . '[options][ids]',$options['ids']); ?>
+        <?php echo $this->formText($formStem . '[options][ids]', @$options['ids']); ?>
     </div>
 </div>
 
@@ -60,7 +60,7 @@ $options = $block->getOptions();
 
     <div class="snippet">
         <?php echo $this->formLabel($formStem . '[options][snippet]',__('Description snippet length')); ?>
-        <?php echo $this->formText($formStem . '[options][snippet]',$options['snippet']); ?>
+        <?php echo $this->formText($formStem . '[options][snippet]', @$options['snippet']); ?>
         <p class="instructions"><?php echo __('The number of characters that the description text will be limited to. Anything other than a number in this field will be discarded.') ?></p>
     </div>
 </div>
