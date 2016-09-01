@@ -9,7 +9,7 @@ $options = $block->getOptions();
     <h4><?php echo __('Collection Query'); ?></h4>
 
     <div class="query-param">
-        <?php echo $this->formLabel($formStem . '[options][ids]', __('Item IDs:')); ?>
+        <?php echo $this->formLabel($formStem . '[options][ids]', __('Collection IDs:')); ?>
         <?php echo $this->formText($formStem . '[options][ids]',@$options['ids']); ?>
     </div>
 </div>

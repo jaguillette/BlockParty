@@ -2,8 +2,8 @@
 $exhibitTags = isset($options['tags'])
     ? html_escape($options['tags'])
     : '';
-$exhibitIds = isset($options['ids'])
-    ? html_escape($options['ids'])
+$exhibitSlugs = isset($options['slugs'])
+    ? html_escape($options['slugs'])
     : '';
 $sectionTitle = isset($options['section-title'])
     ? html_escape($options['section-title'])
@@ -17,7 +17,10 @@ $snippet = isset($options['snippet']) && is_numeric($options['snippet'])
 
 $queryParams = array();
 if ($exhibitTags) {$queryParams['tags']=$exhibitTags;}
-if ($exhibitIds) {$queryParams['range']=$exhibitIds;}
+if ($exhibitSlugs) {
+  $exhibitSlugs = explode(",",$exhibitSlugs);
+  $queryParams['slug']= array_map(function($x) {return trim($x);}, $exhibitSlugs);
+}
 $exhibits = get_records('Exhibit',$queryParams,50);
 
 ?>
@@ -29,4 +32,3 @@ $exhibits = get_records('Exhibit',$queryParams,50);
         <?php echo $this->partial('exhibits/exhibit-group-exhibit.php',array('exhibit'=>$exhibit,'snippet'=>$snippet)); ?>
     <?php endforeach; ?>
 </div>
-

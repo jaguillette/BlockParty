@@ -13,8 +13,8 @@ $options = $block->getOptions();
     </div>
 
     <div class="query-param">
-        <?php echo $this->formLabel($formStem . '[options][ids]', __('Exhibit IDs:')); ?>
-        <?php echo $this->formText($formStem . '[options][ids]',@$options['ids']); ?>
+        <?php echo $this->formLabel($formStem . '[options][slugs]', __('Exhibit Slugs:')); ?>
+        <?php echo $this->formText($formStem . '[options][slugs]',@$options['slugs']); ?>
     </div>
 </div>
 
