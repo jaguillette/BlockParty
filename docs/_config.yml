@@ -20,7 +20,7 @@ description: > # this means to ignore newlines until "baseurl:"
   the Roy Rosenzweig Center for History and New Media. This plugin adds three
   new exhibit blocks for displaying groups of items, collections, and other
   exhibits within an Omeka Exhibit.
-baseurl: "" # the subpath of your site, e.g. /blog
+baseurl: "omeka-plugin-BlockParty" # the subpath of your site, e.g. /blog
 url: "http://jaguillette.github.io/omeka-plugin-BlockParty" # the base hostname & protocol for your site
 #twitter_username: jaxguillette
 #github_username:  jaguillette
