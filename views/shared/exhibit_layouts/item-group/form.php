@@ -63,4 +63,28 @@ $options = $block->getOptions();
         <?php echo $this->formText($formStem . '[options][snippet]', @$options['snippet']); ?>
         <p class="instructions"><?php echo __('The number of characters that the description text will be limited to. Anything other than a number in this field will be discarded.') ?></p>
     </div>
+
+    <div class="hide-files">
+      <?php echo $this->formLabel($formStem . '[options][hidefiles]',__('Hide Item files')); ?>
+      <?php
+      if (isset($options['hidefiles']) && $options['hidefiles']=='1') {
+        $hidefiles = true;
+      } else {
+        $hidefiles = false;
+      }
+        ?>
+      <?php echo $this->formCheckbox($formStem . '[options][hidefiles]', null, array('checked'=>$hidefiles)); ?>
+    </div>
+
+    <div class="show-types">
+      <?php echo $this->formLabel($formStem . '[options][showtypes]',__('Display Item Types')); ?>
+      <?php
+      if (isset($options['showtypes']) && $options['showtypes']=='1') {
+        $showtypes = true;
+      } else {
+        $showtypes = false;
+      }
+        ?>
+      <?php echo $this->formCheckbox($formStem . '[options][showtypes]', null, array('checked'=>$showtypes)); ?>
+    </div>
 </div>

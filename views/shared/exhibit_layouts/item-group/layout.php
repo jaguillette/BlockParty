@@ -20,6 +20,12 @@ $columns = isset($options['columns'])
 $snippet = isset($options['snippet']) && is_numeric($options['snippet'])
     ? intval(html_escape($options['snippet']))
     : 0;
+$hidefiles = isset($options['hidefiles'])
+    ? html_escape($options['hidefiles'])
+    : 0;
+$showtypes = isset($options['showtypes'])
+    ? html_escape($options['showtypes'])
+    : 0;
 
 $items = get_records('Item',array('tags'=>$itemTags, 'range'=>$itemIds, 'collection'=>$itemCollection, 'type'=>$itemType),50);
 ?>
@@ -28,7 +34,14 @@ $items = get_records('Item',array('tags'=>$itemTags, 'range'=>$itemIds, 'collect
 <div class="item-group <?php echo $columns; ?>">
     <?php
     foreach ($items as $item): ?>
-        <?php echo $this->partial('exhibits/item-group-item.php',array('item'=>$item,'snippet'=>$snippet)); ?>
+        <?php echo $this->partial(
+          'exhibits/item-group-item.php',
+          array(
+            'item'=>$item,
+            'snippet'=>$snippet,
+            'hidefiles'=>$hidefiles,
+            'showtypes'=>$showtypes
+          )
+        ); ?>
     <?php endforeach; ?>
 </div>
-
