@@ -1,10 +1,29 @@
+.exhibit-group {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+
 .exhibit {
     display: inline-block;
     float: left;
     width: 100%;
-    -webkit-column-break-inside: avoid; /* Chrome, Safari */
-    page-break-inside: avoid;           /* Theoretically FF 20+ */
-    break-inside: avoid-column;         /* IE 11 */
+}
+
+.exhibit-group.oneCol .exhibit {
+  width: 100%;
+}
+
+.exhibit-group.twoCol .exhibit {
+  width: 48%;
+  margin-left: 1%;
+  margin-right: 1%;
+}
+
+.exhibit-group.twoCol .exhibit {
+  width: 31%;
+  margin-left: 1%;
+  margin-right: 1%;
 }
 
 .exhibit .image {
@@ -26,22 +45,4 @@
 .view-items-link {
     display: inline-block;
     margin-top: 0.5em;
-}
-
-.exhibit-group.oneCol {
-    -moz-column-count: 1;
-    -webkit-column-count: 1;
-    column-count: 1;
-}
-
-.exhibit-group.twoCol {
-    -moz-column-count: 2;
-    -webkit-column-count: 2;
-    column-count: 2;
-}
-
-.exhibit-group.threeCol {
-    -moz-column-count: 3;
-    -webkit-column-count: 3;
-    column-count: 3;
 }
