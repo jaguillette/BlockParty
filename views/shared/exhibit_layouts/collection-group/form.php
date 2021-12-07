@@ -17,7 +17,7 @@ $options = $block->getOptions();
 <div class="layout-options">
     <div class="block-header">
         <h4><?php echo __('Layout Options'); ?></h4>
-        <div class="drawer"></div>
+        <div class="drawer-toggle"></div>
     </div>
 
     <div class="item-group-columns">
